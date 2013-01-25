@@ -85,7 +85,6 @@
 
 	<cffunction name="resetPassword" returntype="boolean" output="false">
 		<cfset generateNewPassword()>
-		<cfset this[$getChangeRequiredProperty()] = true>
 		<cfreturn update()>
 	</cffunction>
 	
@@ -97,6 +96,7 @@
 			<cfset this[$getPasswordProperty()] = this[$getPasswordProperty()] & Mid("abcdefghijklmnopqrstuvwxyz", RandRange(1, 26), 1)>
 			<cfset this[$getPasswordProperty()] = this[$getPasswordProperty()] & RandRange(1, 9)>
 		</cfloop>
+		<cfset this[$getChangeRequiredProperty()] = true>
 	</cffunction>
 
 
