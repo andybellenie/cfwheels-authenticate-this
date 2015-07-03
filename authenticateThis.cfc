@@ -1,10 +1,10 @@
-<cfcomponent displayname="Authenticate This" output="false" author="Andy Bellenie" support="andybellenie@gmail.com">
+<cfcomponent displayname="Authenticate This" output="false" author="Andrew Bellenie" support="andybellenie@gmail.com">
 
 	
 	<!--- plugin config --->
 	
 	<cffunction name="init" output="false">
-		<cfset this.version = "1.1,1.1.1,1.1.2,1.1.3,1.1.4,1.1.5,1.1.6,1.1.7,1.1.8,1.4">
+		<cfset this.version = "1.1,1.1.1,1.1.2,1.1.3,1.1.4,1.1.5,1.1.6,1.1.7,1.1.8,1.4,1.4.1,1.5">
 		<cfreturn this>
 	</cffunction>
 
@@ -21,7 +21,7 @@
 		<cfargument name="saltProperty" type="string" default="passwordSalt" hint="I am the name of the persistent property for the password salt.">
 		<cfargument name="changeRequiredProperty" type="string" default="passwordChangeRequired" hint="I am the name of the property for forcing a password change.">
 		<cfargument name="formatRegEx" type="string" default="^.*(?=.{8,})(?=.*\d)(?=.*[a-z]).*$" hint="I am a regular expression that enforces the format of the password.">
-		<cfargument name="formatErrorMessage" type="string" default="Your password must be at least 8 characters long and contain a mixture of numbers and letters" hint="I am the error message returned if the password is invalid.">
+		<cfargument name="formatErrorMessage" type="string" default="Password must be at least 8 characters long and contain a mixture of numbers and letters" hint="I am the error message returned if the password is invalid.">
 		<cfset variables.wheels.class.authenticateThis = Duplicate(arguments)>
 		<cfif arguments.required>
 			<cfset validatesPresenceOf(property=arguments.passwordProperty, when="onCreate")>
@@ -96,12 +96,18 @@
 	
 
 	<cffunction name="generateNewPassword" returntype="void" output="false">
-		<cfset var i = 0>
-		<cfset var keys = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789">
-		<cfset this[$getPasswordProperty()] = "">
-		<cfloop from="1" to="8" index="i">
-			<cfset this[$getPasswordProperty()] = this[$getPasswordProperty()] & Mid(keys, RandRange(1, Len(keys)), 1)>
+		<cfargument name="length" type="numeric" default="8">
+		<cfset var loc = {}>
+		<cfset loc.range = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789">
+		<cfset loc.result = ArrayNew(1)>
+		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(1, 26), 1))> <!--- 1 lowercase --->
+		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(27, 52), 1))> <!--- 1 uppercase --->
+		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(53, 62), 1))> <!--- 1 number --->
+		<cfloop from="1" to="#arguments.length-2#" index="i">
+			<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(1, 62), 1))>
 		</cfloop>
+		<cfset CreateObject("java", "java.util.Collections").Shuffle(loc.result)>
+		<cfset this[$getPasswordProperty()] = ArrayToList(loc.result)>
 		<cfset this[$getChangeRequiredProperty()] = true>
 	</cffunction>
 
