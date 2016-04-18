@@ -70,10 +70,7 @@
 	<!--- callbacks --->
 
 	<cffunction name="hashPassword" returntype="void" output="false" mixin="model">
-		<cfif not StructKeyExists(this, $getPasswordProperty())>
-			<cfset this[$getPasswordProperty()] = "">
-		</cfif>
-		<cfif Len($getPasswordProperty()) and hasChanged($getPasswordProperty())>
+		<cfif StructKeyExists(this, $getPasswordProperty())>
 			<cfset this[$getSaltProperty()] = GenerateSecretKey("AES")>
 			<cfset this[$getHashProperty()] = saltAndHash(this[$getPasswordProperty()], this[$getSaltProperty()])>
 		</cfif>
