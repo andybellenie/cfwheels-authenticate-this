@@ -4,7 +4,7 @@
 	<!--- plugin config --->
 	
 	<cffunction name="init" output="false">
-		<cfset this.version = "1.1,1.1.1,1.1.2,1.1.3,1.1.4,1.1.5,1.1.6,1.1.7,1.1.8,1.4,1.4.1,1.5">
+		<cfset this.version = "1.4,1.4.1,1.4.2,1.4.3,1.4.4,1.4.5">
 		<cfreturn this>
 	</cffunction>
 
@@ -93,18 +93,18 @@
 	
 
 	<cffunction name="generateNewPassword" returntype="void" output="false">
-		<cfargument name="length" type="numeric" default="8">
+		<cfargument name="length" type="numeric" default="12">
 		<cfset var loc = {}>
 		<cfset loc.range = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789">
 		<cfset loc.result = ArrayNew(1)>
 		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(1, 26), 1))> <!--- 1 lowercase --->
 		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(27, 52), 1))> <!--- 1 uppercase --->
 		<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(53, 62), 1))> <!--- 1 number --->
-		<cfloop from="1" to="#arguments.length-2#" index="i">
+		<cfloop from="1" to="#arguments.length-3#" index="i">
 			<cfset ArrayAppend(loc.result, Mid(loc.range, RandRange(1, 62), 1))>
 		</cfloop>
 		<cfset CreateObject("java", "java.util.Collections").Shuffle(loc.result)>
-		<cfset this[$getPasswordProperty()] = ArrayToList(loc.result)>
+		<cfset this[$getPasswordProperty()] = ArrayToList(loc.result, "")>
 		<cfset this[$getChangeRequiredProperty()] = true>
 	</cffunction>
 
