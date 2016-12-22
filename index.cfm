@@ -34,6 +34,8 @@
 </ul>
 <h2>Usage</h2>
 <p>To create a new hashed password, set a 'password' property and save, e.g. user.create(password="foobar", name=etc.). See method arguments for further usage information.</p>
+<h2>Work factor / Performance</h2>
+<p>The default work factor for bCrypt is set at 12 for a balance of security and performance. This can be increased or decreased using the workFactor argument of authenticateThis()</p>
 <h2>Support</h2>
 <p>I try to keep my plugins free from bugs and up to date with Wheels releases, but life often gets in the way. If you encounter a problem please log an issue using the tracker on github, where you can also browse my other plugins.<br />
 <a href="https://github.com/andybellenie" target="_blank">https://github.com/andybellenie</a></p>
