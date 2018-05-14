@@ -4,7 +4,7 @@
 <h2>Database</h2>
 <p>Requires a CHAR(60) column to store the hashed password. Default property name is 'passwordHash'</p>
 <h2>Setup</h2>
-<p>Add authenticateThis() to the init block of any model.</p>
+<p>Add authenticateThis() to the `config()` block of any model.</p>
 <pre>&lt;cfcomponent extends=&quot;Wheels&quot; output=&quot;false&quot;&gt;
 	&lt;cffunction name=&quot;init&quot;&gt;
 		&lt;cfset authenticateThis()&gt;
