@@ -1,7 +1,7 @@
 component displayname="Authenticate This" output="false" author="Andrew Bellenie" support="andybellenie@gmail.com"{
 
 	public function init(){
-		this.version = "1.4,1.4.1,1.4.2,1.4.3,1.4.4,1.4.5,2.0";
+		this.version = "1.4,1.4.1,1.4.2,1.4.3,1.4.4,1.4.5,2.0,2.2.0";
 		return this;
 	}
 
